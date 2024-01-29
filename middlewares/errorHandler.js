@@ -1,22 +1,9 @@
-const { getDetailFromError } = require('../utils/getDetailFromError');
 const { ApplicationError } = require('../customErrors/ApplicationError');
+const { getTraceFields } = require('../utils/request/getTraceFields');
+const { getDetailFromError } = require('../utils/errors/getDetailFromError');
+const { isServerTimeout } = require('../utils/errors/isServerTimeout');
 
-const getTraceFields = (req) => {
-  return {
-    requestId: req.id,
-    requestPath: req.path,
-    sessionId: req.headers['x-session-id'],
-  };
-};
-
-const isServerTimeout = (detail) => {
-  const isStatusTimeout = [502, 504].includes(detail.status);
-  const hasMessageTimeout = /50[24](\sBad)?(\sGateway)(\sTimeout)?/gi;
-
-  return isStatusTimeout || hasMessageTimeout.test(detail.message);
-};
-
-const errorHandler = (app) => {
+export const errorHandler = (app) => {
   app.use((error, req, res, next) => {
     if (error instanceof ApplicationError) {
       res.status(error.status).json({
@@ -78,5 +65,3 @@ const errorHandler = (app) => {
     return next();
   });
 };
-
-module.exports = errorHandler;
