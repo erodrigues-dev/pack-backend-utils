@@ -1,12 +1,12 @@
-import { getRequestId } from '../utils/request/getRequestId';
+import { getRequestId } from '../utils/request/getRequestId'
 
-export const setRequestId = (app) => {
+export const setRequestId = app => {
   app.use((req, res, next) => {
-    const requestId = getRequestId(req);
+    const requestId = getRequestId(req)
 
-    req.id = requestId;
-    res.set('x-request-id', requestId);
+    req.id = requestId
+    res.set('x-request-id', requestId)
 
-    return next();
-  });
-};
+    return next()
+  })
+}
