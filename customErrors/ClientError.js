@@ -1,4 +1,4 @@
-import { ApplicationError } from './ApplicationError'
+import { ApplicationError } from './ApplicationError.js'
 
 export class ClientError extends ApplicationError {
   constructor(message, status = 400) {

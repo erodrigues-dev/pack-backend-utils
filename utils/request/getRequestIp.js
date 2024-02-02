@@ -1,4 +1,4 @@
-const getRequestIp = req => {
+export const getRequestIp = req => {
   const forwardedForIp = req.headers['x-forwarded-for']?.split(',')[0].trim()
 
   if (forwardedForIp) return forwardedForIp

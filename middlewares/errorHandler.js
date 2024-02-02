@@ -1,9 +1,8 @@
-const { ApplicationError } = require('../customErrors/ApplicationError')
-const { getTraceFields } = require('../utils/request/getTraceFields')
-const { getDetailFromError } = require('../utils/errors/getDetailFromError')
-const { isServerTimeout } = require('../utils/errors/isServerTimeout')
+import { ApplicationError } from '../customErrors/ApplicationError.js'
+import { getDetailFromError } from '../utils/errors/getDetailFromError.js'
+import { isServerTimeout } from '../utils/errors/isServerTimeout.js'
 
-export const errorHandler = app => {
+export const errorHandler = (app, config) => {
   app.use((error, req, res, next) => {
     if (error instanceof ApplicationError) {
       res.status(error.status).json({
@@ -30,28 +29,18 @@ export const errorHandler = app => {
       return next()
     }
 
-    const trace = getTraceFields(req)
     const detail = getDetailFromError(error)
 
-    req.log.error('ERROR-HANDLER', detail.message, {
-      detail: {
-        ...detail,
-        response: JSON.stringify(detail.response),
-      },
-      natural: {
-        ...trace,
-        errorObj: {
-          name: detail.name,
-          message: detail.message,
-        },
-      },
-    })
+    req.detailError = detail
+    const responseDetail = config.errorHandler?.ignoreDetail
+      ? { name: detail.name, message: detail.message }
+      : detail
 
     if (isServerTimeout(detail)) {
       res.status(detail.status).json({
         code: 'SERVER_TIMEOUT_ERROR',
         message: detail.message,
-        detail,
+        detail: responseDetail,
       })
       return next()
     }
@@ -59,7 +48,7 @@ export const errorHandler = app => {
     res.status(500).json({
       code: 'INTERNAL_SERVER_ERROR',
       message: 'Sorry, an unexpected error occurred',
-      detail,
+      detail: responseDetail,
     })
 
     return next()

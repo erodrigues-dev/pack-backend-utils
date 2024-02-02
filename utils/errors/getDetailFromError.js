@@ -10,6 +10,7 @@ export const getDetailFromError = error => {
         response?.data?.detail?.message || response?.data?.message || message,
       status: response?.status,
       response: response?.data,
+      payload: config.body, // TODO
     }
   }
 

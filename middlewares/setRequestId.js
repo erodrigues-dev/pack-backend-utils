@@ -1,4 +1,4 @@
-import { getRequestId } from '../utils/request/getRequestId'
+import { getRequestId } from '../utils/request/getRequestId.js'
 
 export const setRequestId = app => {
   app.use((req, res, next) => {
