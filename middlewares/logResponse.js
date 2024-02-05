@@ -38,7 +38,7 @@ export const logResponse = (app, config) => {
 
     logger('RESPONSE', message, {
       response: {
-        headers: res.headers,
+        headers: res.getHeaders(),
         body: typeof body === 'object' ? JSON.stringify(body) : body,
         ...(prettyDetail && { detail: prettyDetail }),
       },
