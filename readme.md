@@ -5,7 +5,7 @@ utilizam express e simple-node-framework (não existe dependencia direta)
 
 ## Middlewares
 
-Existem 2 hooks exportados neste modulo `pack-backend-utils/middlewares/index.js`
+Existem 2 hooks exportados neste modulo `pack-backend-utils/middlewares/hooks.js`
 
 - useBeforeRoutes: deve ser executado antes das importações de rotas
 - useAfterRoutes: deve ser executado após as inmportações de rotas
@@ -25,7 +25,7 @@ Ex:
 
 import express from 'express'
 import snf from 'simple-node-framework'
-import { useBeforeRoutes, useAfterRoutes } from 'pack-backend-utils/middlewares/index.js'
+import { useBeforeRoutes, useAfterRoutes } from 'pack-backend-utils/middlewares/hooks.js'
 
 import sampleRouter from './api/modules/sample/router'
 
