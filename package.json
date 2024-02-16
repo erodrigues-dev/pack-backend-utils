@@ -1,6 +1,6 @@
 {
   "name": "pack-backend-utils",
-  "version": "0.0.3",
+  "version": "0.0.4",
   "description": "Utils for backend apis",
   "author": "Elton Rodrigues",
   "repository": "https://github.com/erodrigues-dev/pack-backend-utils",
@@ -20,5 +20,8 @@
   "devDependencies": {
     "jest": "^29.7.0",
     "prettier": "^3.2.4"
+  },
+  "dependencies": {
+    "express-async-errors": "^3.1.1"
   }
 }
