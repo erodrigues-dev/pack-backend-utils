@@ -9,7 +9,7 @@
   "main": "index.js",
   "scripts": {
     "prettier": "prettier -w .",
-    "test": "node --experimental-vm-modules node_modules/jest/bin/jest.js --colors"
+    "test": "node --no-warnings --experimental-vm-modules node_modules/jest/bin/jest.js --colors"
   },
   "keywords": [
     "pack",
@@ -22,6 +22,8 @@
     "prettier": "^3.2.4"
   },
   "dependencies": {
-    "express-async-errors": "^3.1.1"
+    "express-async-errors": "^3.1.1",
+    "swagger-ui-express": "^5.0.0",
+    "yaml": "^2.3.4"
   }
 }
