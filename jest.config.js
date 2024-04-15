@@ -1,16 +1,16 @@
-/**
- * For a detailed explanation regarding each configuration property, visit:
- * https://jestjs.io/docs/configuration
- */
-
-/** @type {import('jest').Config} */
-const config = {
+/** @type {import('ts-jest').JestConfigWithTsJest} */
+module.exports = {
+  preset: 'ts-jest',
+  testEnvironment: 'node',
   clearMocks: true,
   collectCoverage: true,
   coverageDirectory: 'test-reports',
   coverageProvider: 'v8',
   coverageReporters: ['html', 'lcov', 'text', 'text-summary'],
-  collectCoverageFrom: ['lib/**/*.js', '!lib/**/index.js'],
+  collectCoverageFrom: [
+    'src/**/*.ts',
+    '!src/**/index.ts',
+    '!src/**/*.d.ts',
+    '!src/**/types.ts',
+  ],
 }
-
-export default config
