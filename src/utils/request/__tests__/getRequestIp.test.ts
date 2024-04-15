@@ -1,3 +1,4 @@
+import { Request } from 'express'
 import { getRequestIp } from '../getRequestIp'
 
 describe('getRequestIp', () => {
@@ -7,10 +8,10 @@ describe('getRequestIp', () => {
         'x-forwarded-for': '192.168.0.1, 10.0.0.1, 172.16.0.1',
       },
       ip: '127.0.0.1',
-      connection: {
+      socket: {
         remoteAddress: '192.168.1.1',
       },
-    }
+    } as unknown as Request
 
     expect(getRequestIp(req)).toBe('192.168.0.1')
   })
@@ -19,28 +20,28 @@ describe('getRequestIp', () => {
     const req = {
       ip: '127.0.0.1',
       headers: {},
-      connection: {
+      socket: {
         remoteAddress: '192.168.1.1',
       },
-    }
+    } as unknown as Request
 
     expect(getRequestIp(req)).toBe('127.0.0.1')
   })
 
-  test('Should return the correct IP from req.connection.remoteAddress if x-forwarded-for and req.ip are not present', () => {
+  test('Should return the correct IP from req.socket.remoteAddress if x-forwarded-for and req.ip are not present', () => {
     const req = {
       headers: {},
-      connection: {
+      socket: {
         remoteAddress: '192.168.1.1',
       },
-    }
+    } as unknown as Request
 
     expect(getRequestIp(req)).toBe('192.168.1.1')
   })
 
   test('Should return null if no valid IP is found', () => {
-    const req = { headers: {} }
+    const req = { headers: {} } as unknown as Request
 
-    expect(getRequestIp(req)).toBeNull()
+    expect(getRequestIp(req)).toBeUndefined()
   })
 })

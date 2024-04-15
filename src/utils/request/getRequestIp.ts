@@ -10,7 +10,7 @@ export const getRequestIp = (req: Request): string | undefined => {
   if (req.ip && req.ip.length >= IP_MIN_LENGTH) return req.ip
 
   if (
-    req.socket.remoteAddress &&
+    req.socket?.remoteAddress &&
     req.socket.remoteAddress.length >= IP_MIN_LENGTH
   ) {
     return req.socket.remoteAddress

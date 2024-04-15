@@ -1,6 +1,7 @@
-import { jest } from '@jest/globals'
+import { Application } from 'express'
+import { logResponse } from '../logResponse'
 
-jest.unstable_mockModule('../../utils/request/getTraceFields', () => ({
+jest.mock('../../utils/request/getTraceFields', () => ({
   getTraceFields: jest.fn().mockReturnValue({
     requestId: 'request-id-123',
     requestPath: '/api/sample',
@@ -15,17 +16,15 @@ jest.unstable_mockModule('../../utils/request/getTraceFields', () => ({
   }),
 }))
 
-const { logResponse } = await import('../logResponse')
-
-const makeApp = (req, res, next) => {
+const makeApp = (req, res, next): Application => {
   return {
     use(callback) {
       callback(req, res, next)
     },
-  }
+  } as unknown as Application
 }
 
-const config = {
+const config: any = {
   log: {
     requestResponse: {
       ignore: ['/api/sample/ignored-route'],

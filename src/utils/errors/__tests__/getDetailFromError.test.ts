@@ -1,3 +1,4 @@
+import { AxiosError } from 'axios'
 import { getDetailFromError } from '../getDetailFromError'
 
 describe('getDetailFromError', () => {

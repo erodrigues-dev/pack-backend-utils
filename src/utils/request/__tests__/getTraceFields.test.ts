@@ -1,11 +1,11 @@
-import { jest } from '@jest/globals'
+import { Request } from 'express'
 
-jest.unstable_mockModule('../getRequestIp', () => ({
+import { getTraceFields } from '../getTraceFields'
+import { getRequestIp } from '../getRequestIp'
+
+jest.mock('../getRequestIp', () => ({
   getRequestIp: jest.fn(),
 }))
-
-const { getTraceFields } = await import('../getTraceFields')
-const { getRequestIp } = await import('../getRequestIp')
 
 describe('getTraceFields', () => {
   test('Should return the correct trace fields with valid data', () => {
@@ -23,9 +23,9 @@ describe('getTraceFields', () => {
           username: 'user123',
         },
       },
-    }
+    } as unknown as Request
 
-    getRequestIp.mockReturnValue('192.168.0.1')
+    jest.mocked(getRequestIp).mockReturnValue('192.168.0.1')
 
     const result = getTraceFields(req)
 
@@ -50,9 +50,9 @@ describe('getTraceFields', () => {
       path: '/api/another-endpoint',
       headers: {},
       authorization: {},
-    }
+    } as unknown as Request
 
-    getRequestIp.mockReturnValue(null)
+    jest.mocked(getRequestIp).mockReturnValue(null)
 
     const result = getTraceFields(req)
 
@@ -76,7 +76,7 @@ describe('getTraceFields', () => {
       headers: {
         'x-origin-referrer': 'https://x-origin-referrer.example.com',
       },
-    }
+    } as unknown as Request
 
     const result = getTraceFields(req)
 
@@ -90,7 +90,7 @@ describe('getTraceFields', () => {
       headers: {
         referer: 'https://referer.example.com',
       },
-    }
+    } as unknown as Request
 
     const result = getTraceFields(req)
 
@@ -102,7 +102,7 @@ describe('getTraceFields', () => {
       headers: {
         origin: 'https://origin.example.com',
       },
-    }
+    } as unknown as Request
 
     const result = getTraceFields(req)
 

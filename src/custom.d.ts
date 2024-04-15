@@ -1,4 +1,5 @@
 import { Logger } from './types'
+import { DetailFromError } from './utils/errors/getDetailFromError'
 
 declare global {
   namespace Express {
@@ -6,7 +7,7 @@ declare global {
       id: string
       log: Logger
       startTime: number
-      detailError: any
+      detailError?: DetailFromError
       authorization?: {
         scheme: string
         credentials: string

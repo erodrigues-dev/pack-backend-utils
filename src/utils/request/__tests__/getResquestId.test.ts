@@ -1,6 +1,6 @@
-import { jest } from '@jest/globals'
+import { Request } from 'express'
 
-jest.unstable_mockModule('node:crypto', () => ({
+jest.mock('node:crypto', () => ({
   randomUUID: jest.fn().mockReturnValue('newMockedUUID'),
 }))
 
@@ -17,7 +17,7 @@ describe('getRequestId', () => {
       headers: {
         'x-request-id': '123456789',
       },
-    }
+    } as unknown as Request
 
     expect(getRequestId(req)).toBe('123456789')
   })
@@ -29,7 +29,7 @@ describe('getRequestId', () => {
       headers: {
         'request-id': '987654321',
       },
-    }
+    } as unknown as Request
 
     expect(getRequestId(req)).toBe('987654321')
   })
@@ -41,7 +41,7 @@ describe('getRequestId', () => {
       headers: {
         request_id: 'abcdef123',
       },
-    }
+    } as unknown as Request
 
     expect(getRequestId(req)).toBe('abcdef123')
   })
@@ -52,7 +52,7 @@ describe('getRequestId', () => {
     const req = {
       headers: {},
       id: 'qwerty123',
-    }
+    } as unknown as Request
 
     expect(getRequestId(req)).toBe('qwerty123')
   })
@@ -60,7 +60,7 @@ describe('getRequestId', () => {
   test('Should create a request id', async () => {
     const getRequestId = await makeSUT()
 
-    const req = { headers: {} }
+    const req = { headers: {} } as unknown as Request
 
     expect(getRequestId(req)).toBe('newMockedUUID')
   })

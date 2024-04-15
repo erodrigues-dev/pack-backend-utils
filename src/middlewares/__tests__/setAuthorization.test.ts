@@ -1,34 +1,34 @@
-import { jest } from '@jest/globals'
+import { Application, NextFunction, Request, Response } from 'express'
 
 import { setAuthorization } from '../setAuthorization'
 import { ClientError } from '../../customErrors/ClientError'
 
 describe('setAuthorization middleware', () => {
-  let req
-  let res
-  let next
-  let app
+  let req: Request
+  let res: Response
+  let next: NextFunction
+  let app: Application
 
   beforeEach(() => {
-    req = { headers: {} }
-    res = {}
-    next = jest.fn()
+    req = { headers: {} } as unknown as Request
+    res = {} as unknown as Response
+    next = jest.fn() as unknown as NextFunction
 
     app = {
       use(callback) {
         callback(req, res, next)
       },
-    }
+    } as unknown as Application
   })
 
   afterEach(() => {
     jest.clearAllMocks()
   })
 
-  test('should set empty authorization object if headers are not present', () => {
+  test('should be undefined authorization object if headers are not present', () => {
     setAuthorization(app)
 
-    expect(req.authorization).toEqual({})
+    expect(req.authorization).toBeUndefined()
     expect(next).toHaveBeenCalled()
   })
 
@@ -52,7 +52,7 @@ describe('setAuthorization middleware', () => {
     req.headers.authorization = 'Basic x'
 
     expect(() => setAuthorization(app)).toThrow(ClientError)
-    expect(req.authorization).toEqual({})
+    expect(req.authorization).toBeUndefined()
     expect(next).not.toHaveBeenCalled()
   })
 })

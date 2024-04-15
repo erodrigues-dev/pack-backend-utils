@@ -17,7 +17,7 @@ export const errorHandler = (app: Application, config: Config) => {
         return next()
       }
 
-      if (error instanceof ValidationError) {
+      if ((error as ValidationError).isJoi) {
         res.status(400).json({
           code: 'VALIDATION_ERROR',
           message: error.message,

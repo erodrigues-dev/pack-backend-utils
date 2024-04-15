@@ -1,17 +1,17 @@
-import { jest } from '@jest/globals'
+import { Application, Response } from 'express'
 import { setContentBody } from '../setContentBody'
 
 describe('setContentBody middleware', () => {
   test('should create contentBody in response', () => {
     const req = {}
-    const res = { send: jest.fn() }
+    const res = { send: jest.fn() } as unknown as Response
     const next = jest.fn()
 
     const app = {
       use(cb) {
         cb(req, res, next)
       },
-    }
+    } as unknown as Application
     setContentBody(app)
     res.send({ any: 'body' })
 
@@ -20,14 +20,14 @@ describe('setContentBody middleware', () => {
 
   test('should parse content body to json', () => {
     const req = {}
-    const res = { send: jest.fn() }
+    const res = { send: jest.fn() } as unknown as Response
     const next = jest.fn()
 
     const app = {
       use(cb) {
         cb(req, res, next)
       },
-    }
+    } as unknown as Application
     setContentBody(app)
     res.send('{ "message":  "i am a json data" }')
 
@@ -36,14 +36,14 @@ describe('setContentBody middleware', () => {
 
   test('should ignore content body parser error', () => {
     const req = {}
-    const res = { send: jest.fn() }
+    const res = { send: jest.fn() } as unknown as Response
     const next = jest.fn()
 
     const app = {
       use(cb) {
         cb(req, res, next)
       },
-    }
+    } as unknown as Application
     setContentBody(app)
     res.send('i am a simple string')
 

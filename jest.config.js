@@ -7,5 +7,10 @@ module.exports = {
   coverageDirectory: 'test-reports',
   coverageProvider: 'v8',
   coverageReporters: ['html', 'lcov', 'text', 'text-summary'],
-  collectCoverageFrom: ['src/**/*.ts', '!src/**/index.ts'],
+  collectCoverageFrom: [
+    'src/**/*.ts',
+    '!src/**/index.ts',
+    '!src/**/*.d.ts',
+    '!src/**/types.ts',
+  ],
 }

@@ -1,30 +1,29 @@
-import { jest } from '@jest/globals'
+import { errorHandler } from '../errorHandler'
+import { logRequest } from '../logRequest'
+import { logResponse } from '../logResponse'
+import { setApplicationVersion } from '../setApplicationVersion'
+import { setAuthorization } from '../setAuthorization'
+import { setContentBody } from '../setContentBody'
+import { setLogger } from '../setLogger'
+import { setRequestId } from '../setRequestId'
+import { exposeSwagger } from '../exposeSwagger'
 
-/* prettier-ignore */ jest.unstable_mockModule('../errorHandler', () => ({ errorHandler: jest.fn() }))
-/* prettier-ignore */ jest.unstable_mockModule('../logRequest', () => ({ logRequest: jest.fn() }))
-/* prettier-ignore */ jest.unstable_mockModule('../logResponse', () => ({ logResponse: jest.fn() }))
-/* prettier-ignore */ jest.unstable_mockModule('../setApplicationVersion', () => ({ setApplicationVersion: jest.fn() }))
-/* prettier-ignore */ jest.unstable_mockModule('../setAuthorization', () => ({ setAuthorization: jest.fn() }))
-/* prettier-ignore */ jest.unstable_mockModule('../setContentBody', () => ({ setContentBody: jest.fn() }))
-/* prettier-ignore */ jest.unstable_mockModule('../setLogger', () => ({ setLogger: jest.fn() }))
-/* prettier-ignore */ jest.unstable_mockModule('../setRequestId', () => ({ setRequestId: jest.fn() }))
-/* prettier-ignore */ jest.unstable_mockModule('../exposeSwagger', () => ({ exposeSwagger: jest.fn() }))
+import { useBeforeRoutes, useAfterRoutes } from '../hooks'
+import { Application } from 'express'
 
-const { errorHandler } = await import('../errorHandler')
-const { logRequest } = await import('../logRequest')
-const { logResponse } = await import('../logResponse')
-const { setApplicationVersion } = await import('../setApplicationVersion')
-const { setAuthorization } = await import('../setAuthorization')
-const { setContentBody } = await import('../setContentBody')
-const { setLogger } = await import('../setLogger')
-const { setRequestId } = await import('../setRequestId')
-const { exposeSwagger } = await import('../exposeSwagger')
+/* prettier-ignore */ jest.mock('../errorHandler', () => ({ errorHandler: jest.fn() }))
+/* prettier-ignore */ jest.mock('../logRequest', () => ({ logRequest: jest.fn() }))
+/* prettier-ignore */ jest.mock('../logResponse', () => ({ logResponse: jest.fn() }))
+/* prettier-ignore */ jest.mock('../setApplicationVersion', () => ({ setApplicationVersion: jest.fn() }))
+/* prettier-ignore */ jest.mock('../setAuthorization', () => ({ setAuthorization: jest.fn() }))
+/* prettier-ignore */ jest.mock('../setContentBody', () => ({ setContentBody: jest.fn() }))
+/* prettier-ignore */ jest.mock('../setLogger', () => ({ setLogger: jest.fn() }))
+/* prettier-ignore */ jest.mock('../setRequestId', () => ({ setRequestId: jest.fn() }))
+/* prettier-ignore */ jest.mock('../exposeSwagger', () => ({ exposeSwagger: jest.fn() }))
 
-const { useBeforeRoutes, useAfterRoutes } = await import('../hooks')
-
-const app = { anyValue: 'app' }
-const config = { anyValue: 'config' }
-const logger = { anyValue: 'logger' }
+const app = { anyValue: 'app' } as unknown as Application
+const config: any = { anyValue: 'config' }
+const logger: any = { anyValue: 'logger' }
 
 describe('hooks middleware', () => {
   describe('useBeforeRoutes', () => {

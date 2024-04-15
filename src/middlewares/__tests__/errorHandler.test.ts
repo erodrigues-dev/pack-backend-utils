@@ -1,21 +1,24 @@
-import { jest } from '@jest/globals'
+import { Application } from 'express'
 
 import { ApplicationError } from '../../customErrors/ApplicationError'
+import {
+  DetailFromError,
+  getDetailFromError,
+} from '../../utils/errors/getDetailFromError'
+import { errorHandler } from '../errorHandler'
+import Joi from 'joi'
 
-jest.unstable_mockModule('../../utils/errors/getDetailFromError', () => ({
+jest.mock('../../utils/errors/getDetailFromError', () => ({
   getDetailFromError: jest.fn(),
 }))
 
-const { getDetailFromError } = await import(
-  '../../utils/errors/getDetailFromError'
-)
-const { errorHandler } = await import('../errorHandler')
+const makeApp = (...args): Application => {
+  return {
+    use: jest.fn().mockImplementation(callback => callback(...args)),
+  } as unknown as Application
+}
 
-const makeApp = (...args) => ({
-  use: jest.fn().mockImplementation(callback => callback(...args)),
-})
-
-const config = {
+const config: any = {
   errorHandler: {
     ignoreDetail: false,
   },
@@ -46,7 +49,7 @@ describe('errorHandler middleware', () => {
     const error = {
       isJoi: true,
       message: 'This is a Joi validation error',
-    }
+    } as Joi.ValidationError
     const req = {}
     const res = {
       status: jest.fn().mockReturnThis(),
@@ -92,7 +95,7 @@ describe('errorHandler middleware', () => {
   })
 
   test('should response with SERVER_TIMEOUT_ERROR', () => {
-    const error = { status: 502, message: '502 Bad Gateway' }
+    const error = { status: 502, message: '502 Bad Gateway' } as DetailFromError
     const req = {}
     const res = {
       status: jest.fn().mockReturnThis(),
@@ -101,7 +104,7 @@ describe('errorHandler middleware', () => {
     const next = jest.fn()
     const app = makeApp(error, req, res, next)
 
-    getDetailFromError.mockReturnValue(error)
+    jest.mocked(getDetailFromError).mockReturnValue(error)
 
     errorHandler(app, config)
 
@@ -118,7 +121,7 @@ describe('errorHandler middleware', () => {
   })
 
   test('should response with INTERNAL_SERVER_ERROR', () => {
-    const error = { status: 500, message: 'any_message' }
+    const error = { status: 500, message: 'any_message' } as DetailFromError
     const req = {}
     const res = {
       status: jest.fn().mockReturnThis(),
@@ -127,7 +130,7 @@ describe('errorHandler middleware', () => {
     const next = jest.fn()
     const app = makeApp(error, req, res, next)
 
-    getDetailFromError.mockReturnValue(error)
+    jest.mocked(getDetailFromError).mockReturnValue(error)
 
     errorHandler(app, config)
 
@@ -144,7 +147,7 @@ describe('errorHandler middleware', () => {
   })
 
   test('should dont response with detail if config.errorHandler.ignoreDetail is true', () => {
-    const error = { status: 500, message: 'any_message' }
+    const error = { status: 500, message: 'any_message' } as DetailFromError
     const req = {}
     const res = {
       status: jest.fn().mockReturnThis(),
@@ -153,7 +156,7 @@ describe('errorHandler middleware', () => {
     const next = jest.fn()
     const app = makeApp(error, req, res, next)
 
-    getDetailFromError.mockReturnValue(error)
+    jest.mocked(getDetailFromError).mockReturnValue(error)
 
     config.errorHandler.ignoreDetail = true
 

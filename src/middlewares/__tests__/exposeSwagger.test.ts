@@ -1,39 +1,23 @@
-import { jest } from '@jest/globals'
+import { Application } from 'express'
+import { parse as yamlParse } from 'yaml'
+import { readFileSync } from 'node:fs'
+import { setup as swaggerSetup } from 'swagger-ui-express'
 
-const yamlParse = jest.fn()
-const readFileSync = jest.fn()
-const swaggerSetup = jest.fn()
+import { exposeSwagger } from '../exposeSwagger'
 
-jest.unstable_mockModule('yaml', () => ({
-  default: {
-    parse: yamlParse,
-  },
-}))
-
-jest.unstable_mockModule('node:fs', () => ({
-  default: {
-    readFileSync,
-  },
-}))
-
-jest.unstable_mockModule('swagger-ui-express', () => ({
-  default: {
-    serve: 'swagger.serve',
-    setup: swaggerSetup,
-  },
-}))
-
-const { exposeSwagger } = await import('../exposeSwagger')
+/*prettier-ignore*/ jest.mock('yaml', () => ({ parse: jest.fn(), }))
+/*prettier-ignore*/ jest.mock('node:fs', () => ({ readFileSync: jest.fn(), }))
+/*prettier-ignore*/ jest.mock('swagger-ui-express', () => ({ serve: 'swagger.serve', setup: jest.fn(), }))
 
 describe('exposeSwagger', () => {
   test('should expose swagger in /doc route', () => {
-    readFileSync.mockReturnValue('swagger.yaml content')
-    yamlParse.mockReturnValue('swagger_document')
-    swaggerSetup.mockReturnValue('swagger.setup')
+    jest.mocked(readFileSync).mockReturnValue('swagger.yaml content')
+    jest.mocked(yamlParse).mockReturnValue('swagger_document')
+    jest.mocked<any>(swaggerSetup).mockReturnValue('swagger.setup')
 
     const app = {
       use: jest.fn(),
-    }
+    } as unknown as Application
     exposeSwagger(app)
 
     expect(app.use).toHaveBeenCalledWith(

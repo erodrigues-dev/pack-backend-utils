@@ -1,5 +1,4 @@
-import { jest } from '@jest/globals'
-
+import { Application } from 'express'
 import { setApplicationVersion } from '../setApplicationVersion'
 
 describe('setAuthorization middleware', () => {
@@ -12,8 +11,8 @@ describe('setAuthorization middleware', () => {
       use(callback) {
         callback(req, res, next)
       },
-    }
-    const config = {
+    } as unknown as Application
+    const config: any = {
       app: { version: '3.x.x' },
     }
     setApplicationVersion(app, config)

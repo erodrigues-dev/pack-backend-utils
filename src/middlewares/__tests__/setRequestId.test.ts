@@ -1,25 +1,25 @@
-import { jest } from '@jest/globals'
+import { Application, Request } from 'express'
 
-jest.unstable_mockModule('../../utils/request/getRequestId', () => ({
+import { getRequestId } from '../../utils/request/getRequestId'
+import { setRequestId } from '../setRequestId'
+
+jest.mock('../../utils/request/getRequestId', () => ({
   getRequestId: jest.fn(),
 }))
 
-const { getRequestId } = await import('../../utils/request/getRequestId')
-const { setRequestId } = await import('../setRequestId')
-
 describe('setRequestId middleware', () => {
   test('should set request id and response header', async () => {
-    const req = {}
+    const req = {} as unknown as Request
     const res = { set: jest.fn() }
     const next = jest.fn()
 
-    getRequestId.mockReturnValue('abc123')
+    jest.mocked(getRequestId).mockReturnValue('abc123')
 
     const app = {
       use(cb) {
         cb(req, res, next)
       },
-    }
+    } as unknown as Application
     setRequestId(app)
 
     expect(req.id).toBe('abc123')
