@@ -3,5 +3,9 @@ node_modules
 
 tsconfig.json
 tsup.config.js
-.prettierrc
 jest.config.js
+.prettierrc
+
+test-reports
+.github
+.tools-versions
