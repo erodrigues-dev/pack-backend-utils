@@ -4,6 +4,7 @@ export interface Config {
   }
   errorHandler?: {
     ignoreDetail: boolean
+    logPayload: boolean
   }
   log: {
     requestResponse?: {

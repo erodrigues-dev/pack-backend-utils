@@ -1,4 +1,11 @@
-import { Axios, AxiosError } from 'axios'
+import { AxiosError } from 'axios'
+
+export type Payload = {
+  url: string
+  method: string
+  params: any
+  data: any
+}
 
 export type DetailFromError = {
   name: string
@@ -8,22 +15,28 @@ export type DetailFromError = {
   status?: number
   response?: any
   stack?: string
+  payload?: Payload
 }
 
 export const getDetailFromError = (error: Error): DetailFromError => {
   if ((error as AxiosError).isAxiosError) {
     const { config, response, message } = error as AxiosError
-    const baseURL = new URL(config?.baseURL as string)
+    const baseURL = new URL(config.baseURL as string)
     const responseData = response?.data as any
     return {
       name: error.name,
       origin: baseURL.hostname,
-      endpoint: `[${config?.method?.toUpperCase()}] ${config?.url}`,
+      endpoint: `[${config.method.toUpperCase()}] ${config.url}`,
       message:
         responseData?.detail?.message || responseData?.message || message,
       status: response?.status,
       response: responseData,
-      // payload: config.body, // TODO
+      payload: {
+        url: config.url,
+        method: config.method.toUpperCase(),
+        params: config.params,
+        data: config.data,
+      },
     }
   }
 
