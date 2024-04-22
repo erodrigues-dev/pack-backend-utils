@@ -11,8 +11,6 @@ import { setContentBody } from './setContentBody'
 import { setLogger } from './setLogger'
 import { setRequestId } from './setRequestId'
 
-import 'express-async-errors'
-
 export const useBeforeRoutes = (
   app: Application,
   config: Config,
