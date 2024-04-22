@@ -37,6 +37,7 @@ export const errorHandler = (app: Application, config: Config) => {
       const detail = getDetailFromError(error)
 
       req.detailError = detail
+
       const responseDetail = config.errorHandler?.ignoreDetail
         ? undefined
         : detail
