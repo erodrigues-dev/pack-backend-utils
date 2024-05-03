@@ -26,7 +26,7 @@ export const logResponse = (app: Application, config: Config) => {
       req.path,
     )
 
-    let body = res.contentBody
+    let body = res.contentBody || {}
     if (!isError && (isIgnoredBodyRoute || isGet)) {
       body = {}
     }
@@ -40,11 +40,14 @@ export const logResponse = (app: Application, config: Config) => {
       message: detail.message,
     }
 
+    const addPrettyDetail = !Boolean(body?.detail) && prettyDetail
+
     logger('RESPONSE', message, {
       response: {
+        status: res.statusCode,
         headers: res.getHeaders(),
         body: typeof body === 'object' ? JSON.stringify(body) : body,
-        ...(prettyDetail && { detail: prettyDetail }),
+        ...(addPrettyDetail && { detail: prettyDetail }),
       },
       natural: {
         ...trace,

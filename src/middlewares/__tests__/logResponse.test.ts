@@ -93,6 +93,7 @@ describe('logResponse middleware', () => {
           sessionId: 'session-id-123',
         },
         response: {
+          status: 200,
           body: '{"has":"body"}',
           headers: { 'Content-Type': 'application/json' },
         },
