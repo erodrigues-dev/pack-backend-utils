@@ -1,6 +1,7 @@
 export interface Config {
   app: {
     version: string
+    name: string
   }
   errorHandler?: {
     ignoreDetail: boolean
