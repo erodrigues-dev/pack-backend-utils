@@ -45,6 +45,27 @@ describe('errorHandler middleware', () => {
     expect(next).toHaveBeenCalledWith()
   })
 
+  test('should response with ApplicationError with data', () => {
+    const error = new ApplicationError({ data: { key: 'value' } })
+    const req = {}
+    const res = {
+      status: jest.fn().mockReturnThis(),
+      json: jest.fn(),
+    }
+    const next = jest.fn()
+
+    const app = makeApp(error, req, res, next)
+    errorHandler(app, config)
+
+    expect(res.status).toHaveBeenCalledWith(error.status)
+    expect(res.json).toHaveBeenCalledWith({
+      code: error.code,
+      message: error.message,
+      data: error.data,
+    })
+    expect(next).toHaveBeenCalledWith()
+  })
+
   test('should response with VALIDATION_ERROR', () => {
     const error = {
       isJoi: true,

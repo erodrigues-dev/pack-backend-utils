@@ -13,6 +13,7 @@ export const errorHandler = (app: Application, config: Config) => {
         res.status(error.status).json({
           code: error.code,
           message: error.message,
+          data: error.data,
         })
         return next()
       }

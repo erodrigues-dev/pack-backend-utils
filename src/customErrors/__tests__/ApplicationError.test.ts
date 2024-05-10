@@ -12,15 +12,17 @@ describe('Application Error', () => {
     expect(sut.code).toEqual('APPLICATION_ERROR')
   })
 
-  test('should create with message, status and code', () => {
+  test('should create with message, status, code and data', () => {
     const sut = new ApplicationError({
       message: 'any_message',
       status: 500,
       code: 'any_code',
+      data: 'any_data',
     })
 
     expect(sut.message).toEqual('any_message')
     expect(sut.status).toEqual(500)
     expect(sut.code).toEqual('any_code')
+    expect(sut.data).toEqual('any_data')
   })
 })
