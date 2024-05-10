@@ -1,3 +1,10 @@
+type ConstructorArguments = {
+  message?: string
+  code?: string
+  status?: number
+  data?: any
+}
+
 export class ApplicationError extends Error {
   name: string
   status: number
@@ -10,7 +17,7 @@ export class ApplicationError extends Error {
     code = 'APPLICATION_ERROR',
     status = 500,
     data = undefined,
-  } = {}) {
+  }: ConstructorArguments = {}) {
     super(message)
     this.name = 'ApplicationError'
     this.isCustomError = true
@@ -20,3 +27,5 @@ export class ApplicationError extends Error {
     this.data = data
   }
 }
+
+const t = new ApplicationError({ data: { key: 'value' } })
