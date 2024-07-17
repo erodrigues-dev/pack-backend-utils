@@ -36,6 +36,7 @@
     "typescript": "^5.4.4"
   },
   "dependencies": {
+    "cls-hooked": "^4.2.2",
     "swagger-ui-express": "^5.0.0",
     "yaml": "^2.3.4"
   }
