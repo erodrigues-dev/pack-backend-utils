@@ -1,6 +1,6 @@
 import { Application } from 'express'
-import { createNamespace, Namespace } from 'cls-hooked';
-import { createScopedRequestId } from '../createScopedRequestId';
+import { createNamespace, Namespace } from 'cls-hooked'
+import { createScopedRequestId } from '../createScopedRequestId'
 
 jest.mock('cls-hooked', () => {
     const mNamespace = {
