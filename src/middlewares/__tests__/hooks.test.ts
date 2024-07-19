@@ -7,7 +7,7 @@ import { setContentBody } from '../setContentBody'
 import { setLogger } from '../setLogger'
 import { setRequestId } from '../setRequestId'
 import { exposeSwagger } from '../exposeSwagger'
-import { createScopedRequestId } from '../createScopedRequestId'
+import { createScopedRequest } from '../createScopedRequest'
 
 import { useBeforeRoutes, useAfterRoutes } from '../hooks'
 import { Application } from 'express'
@@ -21,7 +21,7 @@ import { Application } from 'express'
 /* prettier-ignore */ jest.mock('../setLogger', () => ({ setLogger: jest.fn() }))
 /* prettier-ignore */ jest.mock('../setRequestId', () => ({ setRequestId: jest.fn() }))
 /* prettier-ignore */ jest.mock('../exposeSwagger', () => ({ exposeSwagger: jest.fn() }))
-/* prettier-ignore */ jest.mock('../createScopedRequestId', () => ({ createScopedRequestId: jest.fn() }))
+/* prettier-ignore */ jest.mock('../createScopedRequest', () => ({ createScopedRequest: jest.fn() }))
 
 const app = { anyValue: 'app' } as unknown as Application
 const config: any = { anyValue: 'config' }
@@ -35,7 +35,7 @@ describe('hooks middleware', () => {
       expect(exposeSwagger).toHaveBeenCalledWith(app)
       expect(setLogger).toHaveBeenCalledWith(app, logger)
       expect(setRequestId).toHaveBeenCalledWith(app)
-      expect(createScopedRequestId(app))
+      expect(createScopedRequest(app))
       expect(setAuthorization).toHaveBeenCalledWith(app)
       expect(setApplicationVersion).toHaveBeenCalledWith(app, config)
       expect(setContentBody).toHaveBeenCalledWith(app)
