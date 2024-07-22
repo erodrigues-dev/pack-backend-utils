@@ -6,7 +6,7 @@ export const createScopedRequest = (app: Application) => {
         const namespace = createNamespace('scoped-request')
         namespace.run(() => {
             namespace.set('requestId', req.id)
-            namespace.set('sessionId', req?.headers['x-session-id'])
+            namespace.set('sessionId', req.headers['x-session-id'])
             next()
         })
     })
