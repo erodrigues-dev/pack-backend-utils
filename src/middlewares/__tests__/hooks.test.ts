@@ -35,7 +35,7 @@ describe('hooks middleware', () => {
       expect(exposeSwagger).toHaveBeenCalledWith(app)
       expect(setLogger).toHaveBeenCalledWith(app, logger)
       expect(setRequestId).toHaveBeenCalledWith(app)
-      expect(createScopedRequest(app))
+      expect(createScopedRequest).toHaveBeenCalledWith(app)
       expect(setAuthorization).toHaveBeenCalledWith(app)
       expect(setApplicationVersion).toHaveBeenCalledWith(app, config)
       expect(setContentBody).toHaveBeenCalledWith(app)
