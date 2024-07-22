@@ -10,6 +10,7 @@ import { setAuthorization } from './setAuthorization'
 import { setContentBody } from './setContentBody'
 import { setLogger } from './setLogger'
 import { setRequestId } from './setRequestId'
+import { createScopedRequest } from './createScopedRequest'
 
 export const useBeforeRoutes = (
   app: Application,
@@ -23,6 +24,7 @@ export const useBeforeRoutes = (
   setAuthorization(app)
   setApplicationVersion(app, config)
   setContentBody(app)
+  createScopedRequest(app)
   logRequest(app, config)
 }
 
