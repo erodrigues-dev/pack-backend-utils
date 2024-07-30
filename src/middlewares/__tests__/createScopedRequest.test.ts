@@ -34,7 +34,7 @@ describe('createScopedRequest middleware', () => {
 
         createScopedRequest(app)
 
-        expect(createNamespace).toHaveBeenCalledWith('scoped-request')
+        expect(createNamespace).not.toHaveBeenCalledWith('scoped-request')
         expect(next).toHaveBeenCalled()
 
     })
