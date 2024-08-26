@@ -7,6 +7,7 @@ export const createScopedRequest = (app: Application) => {
         namespace.run(() => {
             namespace.set('requestId', req.id)
             namespace.set('sessionId', req.headers['x-session-id'])
+            namespace.set('appVersion', req.headers['x-application-version'])
             next()
         })
     })
