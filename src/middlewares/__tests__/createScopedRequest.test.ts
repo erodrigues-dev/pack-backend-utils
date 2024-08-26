@@ -34,13 +34,13 @@ describe('createScopedRequest middleware', () => {
 
         createScopedRequest(app)
 
-        expect(createNamespace).toHaveBeenCalledWith('scoped-request')
+        expect(createNamespace).not.toHaveBeenCalledWith('scoped-request')
         expect(next).toHaveBeenCalled()
 
     })
 
-    test('should set request.id (1234)', () => {
-        const req = { id: '1234', headers: { 'x-session-id': '6789'} }
+    test('should set request.id (1234) and x-session-id (6789) and x-application-version (1234)', () => {
+        const req = { id: '1234', headers: { 'x-session-id': '6789', 'x-application-version': '1234'} }
         const res = {}
         const next = jest.fn()
 
@@ -51,6 +51,7 @@ describe('createScopedRequest middleware', () => {
 
         expect(mockedNamespace.set).toHaveBeenCalledWith('requestId', '1234')
         expect(mockedNamespace.set).toHaveBeenCalledWith('sessionId', '6789')
+        expect(mockedNamespace.set).toHaveBeenCalledWith('appVersion', '1234')
         expect(next).toHaveBeenCalled()
 
     })
@@ -67,6 +68,7 @@ describe('createScopedRequest middleware', () => {
 
         expect(mockedNamespace.set).toHaveBeenCalledWith('requestId', undefined)
         expect(mockedNamespace.set).toHaveBeenCalledWith('sessionId', undefined)
+        expect(mockedNamespace.set).toHaveBeenCalledWith('appVersion', undefined)
         expect(next).toHaveBeenCalled()
 
     })
