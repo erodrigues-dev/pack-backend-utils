@@ -1,9 +1,12 @@
 {
   "name": "pack-backend-utils",
-  "version": "0.6.3",
+  "version": "0.6.4",
   "description": "Utils for backend apis",
   "author": "Elton Rodrigues",
-  "repository": "https://github.com/erodrigues-dev/pack-backend-utils",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/erodrigues-dev/pack-backend-utils.git"
+  },
   "license": "MIT",
   "main": "./dist/index.js",
   "module": "./dist/index.mjs",

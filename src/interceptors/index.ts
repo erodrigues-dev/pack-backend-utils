@@ -1,1 +1,1 @@
-export { addRequestTracingIdInterceptor } from './request/requestTracingId'
+export { addScopedRequestInterceptor } from './request/scopedRequest'

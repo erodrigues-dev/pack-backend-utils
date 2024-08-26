@@ -26,15 +26,18 @@ describe('getScopedRequest', () => {
     (namespace.get as jest.Mock).mockImplementation((key: string) => {
       if (key === 'requestId') return 'request-id'
       if (key === 'sessionId') return 'session-id'
+      if (key === 'appVersion') return 'app-version'
     })
 
     const request = getScopedRequest()
 
     expect(getNamespace).toHaveBeenCalledWith('scoped-request')
-    expect(namespace.get).toHaveBeenCalledTimes(2)
+    expect(namespace.get).toHaveBeenCalledTimes(3)
     expect(namespace.get).toHaveBeenCalledWith('requestId')
     expect(namespace.get).toHaveBeenCalledWith('sessionId')
-    expect(request).toEqual({ requestId: 'request-id', sessionId: 'session-id'})
+    expect(namespace.get).toHaveBeenCalledWith('appVersion')
+
+    expect(request).toEqual({ requestId: 'request-id', sessionId: 'session-id', appVersion: 'app-version'})
   })
 
   it('should return undefined if requestId and sessionId is not set', () => {
@@ -43,7 +46,8 @@ describe('getScopedRequest', () => {
     const request = getScopedRequest()
 
     expect(getNamespace).toHaveBeenCalledWith('scoped-request')
-    expect(namespace.get).toHaveBeenCalledTimes(2)
-    expect(request).toEqual({ requestId: undefined, sessionId: undefined})
+    expect(namespace.get).toHaveBeenCalledTimes(3)
+    expect(request).toEqual({ requestId: undefined, sessionId: undefined, appVersion: undefined})
   })
 })
+ 

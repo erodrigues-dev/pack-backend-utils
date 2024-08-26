@@ -1,8 +1,8 @@
-import { AxiosInstance, AxiosRequestConfig, InternalAxiosRequestConfig } from 'axios'
+import { AxiosInstance, InternalAxiosRequestConfig } from 'axios'
 import { getScopedRequest } from '../../utils/request/getScopedRequest'
 
 
-export const addRequestTracingIdInterceptor = (axiosInstance: AxiosInstance) => {
+export const addScopedRequestInterceptor = (axiosInstance: AxiosInstance) => {
     axiosInstance.interceptors.request.use(
         (config: InternalAxiosRequestConfig<any>) => {
             const scopedRequest = getScopedRequest()
@@ -10,6 +10,7 @@ export const addRequestTracingIdInterceptor = (axiosInstance: AxiosInstance) => 
 
             headers['x-request-id'] = scopedRequest.requestId
             headers['x-session-id'] = scopedRequest.sessionId
+            headers['x-application-version'] = scopedRequest.appVersion
 
             return {
                 ...config,
