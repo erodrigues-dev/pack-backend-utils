@@ -25,9 +25,12 @@ export const logResponse = (app: Application, config: Config) => {
     const isIgnoredBodyRoute = config.log.requestResponse?.ignoreBody?.includes(
       req.path,
     )
+    const isFullGetResponse = config.log.requestResponse?.logGetBodyResponse?.includes(
+      req.path
+    )
 
     let body = res.contentBody
-    if (!isError && (isIgnoredBodyRoute || isGet)) {
+    if (!isError && !isFullGetResponse && (isIgnoredBodyRoute || isGet)) {
       body = {}
     }
 

@@ -11,6 +11,7 @@ export interface Config {
     requestResponse?: {
       ignore: string[]
       ignoreBody: string[]
+      logGetBodyResponse: string[]
     }
   }
 }

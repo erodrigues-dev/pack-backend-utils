@@ -1,6 +1,6 @@
 {
   "name": "pack-backend-utils",
-  "version": "0.6.4",
+  "version": "0.6.5",
   "description": "Utils for backend apis",
   "author": "Elton Rodrigues",
   "repository": {
