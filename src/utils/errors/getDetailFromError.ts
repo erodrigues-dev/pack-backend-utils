@@ -21,7 +21,7 @@ export type DetailFromError = {
 export const getDetailFromError = (error: Error): DetailFromError => {
   if ((error as AxiosError).isAxiosError) {
     const { config, response, message } = error as AxiosError
-    const baseURL = new URL(config.baseURL as string)
+    const baseURL = new URL(config.baseURL || (config.url as string))
     const responseData = response?.data as any
     return {
       name: error.name,
