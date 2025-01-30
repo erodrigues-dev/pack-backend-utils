@@ -2,6 +2,8 @@ import { Application } from 'express'
 import { createNamespace } from 'cls-hooked'
 const namespace = createNamespace('scoped-request')
 
+namespace.set('externalLogs', []);
+
 export const createScopedRequest = (app: Application) => {
     app.use((req, res, next) => {
         namespace.run(() => {
