@@ -2,6 +2,10 @@ import { Application } from 'express'
 
 import { Config } from '../types'
 import { getTraceFields } from '../utils/request/getTraceFields'
+import { getNamespace } from 'cls-hooked'
+
+const namespace = getNamespace('scoped-request')
+const externalLogs = namespace?.get('externalLogs')
 
 export const logResponse = (app: Application, config: Config) => {
   app.use((req, res, next) => {
@@ -43,7 +47,7 @@ export const logResponse = (app: Application, config: Config) => {
       message: detail.message,
     }
 
-    logger('RESPONSE', message, {
+    const logDetails = {
       response: {
         headers: res.getHeaders(),
         body: typeof body === 'object' ? JSON.stringify(body) : body,
@@ -58,7 +62,16 @@ export const logResponse = (app: Application, config: Config) => {
         isLoggedIn: Boolean(req.headers['x-provider-id']),
         isError,
       },
-    })
+    };
+
+
+    if (externalLogs && externalLogs.length >= 1) {
+      const [{ externalLog, externalName }] = externalLogs;
+
+      logDetails[externalName] = externalLog;
+    }
+
+    logger('RESPONSE', message, logDetails)
 
     return next()
   })
